@@ -37,10 +37,6 @@ Product screenshot placeholders are also centralised there. Add real images unde
 
 Legal and disclosure pages are in `src/pages/`. The effective date for the initial pages is 30 July 2026. Review all policies before commercial publication; they have not received professional legal review. Contact is `thisisaritrasaha@gmail.com`.
 
-## AdMob `app-ads.txt`
-
-`public/app-ads.txt` currently contains a documented development placeholder only. Before publishing monetised inventory, replace it with the exact authorised seller line copied from AdMob. The deployed file will be available at `/app-ads.txt`.
-
 ## Accessibility and licence
 
 The site uses semantic landmarks, visible focus-friendly controls, keyboard-operable navigation, responsive layouts, light/dark themes and a reduced-motion alternative. Check routes in both themes and run `npm run check` before publishing.
