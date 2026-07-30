@@ -23,7 +23,7 @@ npm run preview
 
 ## GitHub Pages
 
-The workflow in `.github/workflows/deploy.yml` builds on pushes to `main` and deploys through GitHub Pages. In repository settings, set Pages > Build and deployment > Source to **GitHub Actions**. The project-path base is configured for `iamaritrasaha.github.io/foresight-labs`; local development uses root paths.
+The workflow in `.github/workflows/deploy.yml` builds on pushes to `main` and deploys through GitHub Pages. In repository settings, set Pages > Build and deployment > Source to **GitHub Actions**. Do not use the generated Jekyll “pages build and deployment” workflow: it scans Astro source files as Jekyll content and will fail on `.astro` front matter. The project-path base is configured for `iamaritrasaha.github.io/foresight-labs`; local development uses root paths. The emitted artifact includes `.nojekyll` as an additional safeguard.
 
 For a custom domain, add the domain in GitHub Pages settings, add the required DNS records, and update `site` in `astro.config.mjs`. Add a `public/CNAME` file containing the domain when the domain is ready.
 
