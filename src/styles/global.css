@@ -169,6 +169,12 @@ body>.intelligence-field.is-global .field-aura{
   background:#151827;
   box-shadow:0 0 0 24px color-mix(in srgb,var(--accent) 10%,transparent),0 24px 52px rgba(17,20,35,.24);
 }
+.product-card.blue .art-core.has-brand-image,
+.eco-node.blue .eco-node-mark.has-brand-image,
+.product-hero.blue .device-signal.has-brand-image{
+  background:linear-gradient(145deg,#fbfdff,#e7eef6);
+  border-color:rgba(111,152,185,.32);
+}
 
 /* AURA's concept panels show real interface ideas without pretending to be final screenshots. */
 .screenshot.has-interface-preview{

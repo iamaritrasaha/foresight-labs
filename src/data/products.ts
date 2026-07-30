@@ -41,7 +41,7 @@ export const products: Product[] = [
   {
     name: 'NovaRX', slug: 'novarx', tagline: 'A clearer way to think about care.',
     description: 'A modern health and medicine-focused digital product being developed under Foresight Labs.',
-    status: 'In development', accent: 'blue', logo: 'N', screenshots: ['Care overview', 'Medication context', 'A clearer next step'],
+    status: 'In development', accent: 'blue', logo: 'N', brandImage: 'images/novarx-app-icon.svg', screenshots: ['Care overview', 'Medication context', 'A clearer next step'],
     playStoreUrl: null, repositoryUrl: null, privacyPolicyUrl: null,
     purpose: 'NovaRX is exploring how health and medicine information can feel more understandable, humane and actionable.',
     capabilities: ['Health and medicine information', 'Clearer context around care', 'Designed for calm, practical interactions', 'Scope evolving through careful research'],
