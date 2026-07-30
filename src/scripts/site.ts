@@ -26,10 +26,12 @@ const canvas = field?.querySelector<HTMLCanvasElement>('canvas');
 if (field && canvas && !prefersReduced.matches) {
   const context = canvas.getContext('2d');
   type FieldPoint = { angle: number; radius: number; speed: number; size: number; depth: number; phase: number; wobble: number };
-  type RenderedPoint = { x: number; y: number; size: number; depth: number };
+  type RenderedPoint = { x: number; y: number; size: number; depth: number; index: number };
+  type FieldConnection = { from: RenderedPoint; to: RenderedPoint; distance: number; alpha: number };
   let points: FieldPoint[] = [];
   let frame = 0; let resizeFrame = 0; let visible = true; let width = 0; let height = 0;
-  let pointerInside = false; let pointerX = 0; let pointerY = 0; let lastPointerAt = 0; let pinStrength = 0;
+  let pointerInside = false; let pointerX = 0; let pointerY = 0; let lastPointerAt = 0;
+  let pointerPresence = 0; let pointerStillness = 0;
 
   const makePoints = (count: number): FieldPoint[] => Array.from({ length: count }, (_, index) => ({
     angle: index * 2.399963,
@@ -48,7 +50,7 @@ if (field && canvas && !prefersReduced.matches) {
     canvas.width = Math.round(width * ratio); canvas.height = Math.round(height * ratio);
     canvas.style.width = `${width}px`; canvas.style.height = `${height}px`;
     context?.setTransform(ratio, 0, 0, ratio, 0, 0);
-    points = makePoints(width < 760 ? 24 : 42);
+    points = makePoints(width < 760 ? 32 : width < 1200 ? 52 : 62);
   };
 
   const queueResize = () => {
@@ -61,50 +63,67 @@ if (field && canvas && !prefersReduced.matches) {
     if (!visible || document.hidden || !context) return;
     context.clearRect(0, 0, width, height);
 
-    const idle = pointerInside && time - lastPointerAt > 680;
-    pinStrength += ((idle ? 1 : 0) - pinStrength) * (idle ? .065 : .16);
+    const pointerIsStill = pointerInside && time - lastPointerAt > 420;
+    pointerPresence += ((pointerInside ? 1 : 0) - pointerPresence) * (pointerInside ? .09 : .16);
+    pointerStillness += ((pointerIsStill ? 1 : 0) - pointerStillness) * (pointerIsStill ? .045 : .18);
     const spread = Math.max(width, height) * .9;
-    const pointerOffsetX = pointerInside ? (pointerX / Math.max(width, 1) - .5) * width * .035 : 0;
-    const pointerOffsetY = pointerInside ? (pointerY / Math.max(height, 1) - .5) * height * .035 : 0;
-    const cx = width * .55 + pointerOffsetX + Math.sin(time * .00007) * width * .025;
-    const cy = height * .46 + pointerOffsetY + Math.cos(time * .00006) * height * .03;
+    const cx = width * .55 + Math.sin(time * .00007) * width * .025;
+    const cy = height * .46 + Math.cos(time * .00006) * height * .03;
 
-    const dots: RenderedPoint[] = points.map((point) => {
+    const dots: RenderedPoint[] = points.map((point, index) => {
       const angle = point.angle + time * point.speed;
       const radius = spread * point.radius + Math.sin(time * .00024 + point.phase) * point.wobble;
-      let x = cx + Math.cos(angle) * radius;
-      let y = cy + Math.sin(angle) * radius * (.54 + point.depth * .08);
-      if (pinStrength > .01) {
-        const dx = pointerX - x; const dy = pointerY - y; const distance = Math.hypot(dx, dy);
-        const pull = Math.max(0, 1 - distance / 270) * pinStrength * .095;
-        x += dx * pull; y += dy * pull;
-      }
-      return { x, y, size: point.size, depth: point.depth };
+      const x = cx + Math.cos(angle) * radius;
+      const y = cy + Math.sin(angle) * radius * (.54 + point.depth * .08);
+      return { x, y, size: point.size, depth: point.depth, index };
     });
 
-    context.lineWidth = .72;
+    const connectionLimit = Math.min(285, Math.max(165, width * .18));
+    const neighboursPerNode = width < 760 ? 2 : 3;
+    const connections: FieldConnection[] = [];
+    const connectedPairs = new Set<string>();
+
+    dots.forEach((dot) => {
+      const neighbours = dots
+        .filter((candidate) => candidate.index !== dot.index)
+        .map((candidate) => ({ candidate, distance: Math.hypot(candidate.x - dot.x, candidate.y - dot.y) }))
+        .filter(({ distance }) => distance < connectionLimit)
+        .sort((a, b) => a.distance - b.distance)
+        .slice(0, neighboursPerNode);
+
+      neighbours.forEach(({ candidate, distance }) => {
+        const pair = dot.index < candidate.index ? `${dot.index}:${candidate.index}` : `${candidate.index}:${dot.index}`;
+        if (connectedPairs.has(pair)) return;
+        connectedPairs.add(pair);
+        connections.push({
+          from: dot,
+          to: candidate,
+          distance,
+          alpha: (1 - distance / connectionLimit) * (.16 + Math.min(dot.depth, candidate.depth) * .08) + .025
+        });
+      });
+    });
+
+    context.lineWidth = .68;
+    connections.forEach(({ from, to, alpha }) => {
+      context.strokeStyle = `rgba(112, 139, 198, ${alpha})`;
+      context.beginPath(); context.moveTo(from.x, from.y); context.lineTo(to.x, to.y); context.stroke();
+    });
+
     dots.forEach((dot, index) => {
-      let neighbours = 0;
-      for (let nextIndex = index + 1; nextIndex < dots.length && neighbours < 2; nextIndex += 1) {
-        const next = dots[nextIndex];
-        const distance = Math.hypot(next.x - dot.x, next.y - dot.y);
-        const limit = Math.min(270, Math.max(155, width * .2));
-        if (distance < limit) {
-          const alpha = (1 - distance / limit) * (.16 + dot.depth * .07);
-          context.strokeStyle = `rgba(112, 139, 198, ${alpha})`;
-          context.beginPath(); context.moveTo(dot.x, dot.y); context.lineTo(next.x, next.y); context.stroke();
-          neighbours += 1;
-        }
-      }
-      const next = dots[(index + 1) % dots.length];
-      context.strokeStyle = `rgba(112, 139, 198, ${index % 5 === 0 ? .16 : .07})`;
+      if (index % 9 !== 0) return;
+      const next = dots[(index + 7) % dots.length];
+      const distance = Math.hypot(next.x - dot.x, next.y - dot.y);
+      if (distance > connectionLimit * 1.5) return;
+      context.strokeStyle = `rgba(112, 139, 198, ${.045 + (1 - distance / (connectionLimit * 1.5)) * .055})`;
       context.beginPath(); context.moveTo(dot.x, dot.y); context.lineTo(next.x, next.y); context.stroke();
     });
 
     const signalColours = ['rgba(93,174,207,.92)', 'rgba(136,112,218,.9)', 'rgba(73,166,151,.88)'];
-    for (let signal = 0; signal < 6; signal += 1) {
-      const startIndex = (signal * 7) % dots.length;
-      const start = dots[startIndex]; const end = dots[(startIndex + 1) % dots.length];
+    const signalCount = width < 760 ? 5 : 8;
+    for (let signal = 0; signal < signalCount && connections.length; signal += 1) {
+      const connection = connections[(signal * 11) % connections.length];
+      const start = connection.from; const end = connection.to;
       const progress = (time * (.000025 + signal * .000002) + signal * .17) % 1;
       const x = start.x + (end.x - start.x) * progress; const y = start.y + (end.y - start.y) * progress;
       context.beginPath(); context.arc(x, y, 1.65, 0, Math.PI * 2);
@@ -118,18 +137,43 @@ if (field && canvas && !prefersReduced.matches) {
       context.fill();
     });
 
-    if (pinStrength > .01) {
-      const nearest = dots.map((dot) => ({ dot, distance: Math.hypot(dot.x - pointerX, dot.y - pointerY) })).sort((a, b) => a.distance - b.distance).slice(0, 5);
-      nearest.forEach(({ dot, distance }) => {
-        const alpha = Math.max(0, 1 - distance / 420) * pinStrength * .62;
+    if (pointerPresence > .01) {
+      const pointerLinkCount = Math.min(dots.length, 3 + Math.round(pointerStillness * 6));
+      const nearest = dots
+        .map((dot) => ({ dot, distance: Math.hypot(dot.x - pointerX, dot.y - pointerY) }))
+        .sort((a, b) => a.distance - b.distance)
+        .slice(0, pointerLinkCount);
+
+      nearest.forEach(({ dot, distance }, index) => {
+        const alpha = Math.max(.12, 1 - distance / Math.max(width * .5, 480))
+          * pointerPresence * (.35 + pointerStillness * .46);
+        const midpointX = (pointerX + dot.x) / 2;
+        const midpointY = (pointerY + dot.y) / 2;
+        const bend = (index % 2 ? 1 : -1) * Math.min(18, distance * .035) * pointerStillness;
+        const dx = dot.x - pointerX;
+        const dy = dot.y - pointerY;
+        const length = Math.max(1, distance);
+        const controlX = midpointX - dy / length * bend;
+        const controlY = midpointY + dx / length * bend;
         context.strokeStyle = `rgba(103, 137, 215, ${alpha})`;
-        context.beginPath(); context.moveTo(pointerX, pointerY); context.lineTo(dot.x, dot.y); context.stroke();
+        context.beginPath(); context.moveTo(pointerX, pointerY); context.quadraticCurveTo(controlX, controlY, dot.x, dot.y); context.stroke();
+
+        if (index < 4 && pointerStillness > .08) {
+          const progress = (time * (.00024 + index * .000018) + index * .21) % 1;
+          const inverse = 1 - progress;
+          const signalX = inverse * inverse * dot.x + 2 * inverse * progress * controlX + progress * progress * pointerX;
+          const signalY = inverse * inverse * dot.y + 2 * inverse * progress * controlY + progress * progress * pointerY;
+          context.beginPath(); context.arc(signalX, signalY, 1.45, 0, Math.PI * 2);
+          context.fillStyle = signalColours[index % signalColours.length];
+          context.shadowBlur = 9; context.shadowColor = signalColours[index % signalColours.length]; context.fill(); context.shadowBlur = 0;
+        }
       });
-      const pulse = 6.5 + Math.sin(time * .004) * 1.4;
+
+      const pulse = 5.5 + pointerStillness * 4 + Math.sin(time * .004) * (1 + pointerStillness);
       context.beginPath(); context.arc(pointerX, pointerY, pulse, 0, Math.PI * 2);
-      context.strokeStyle = `rgba(110, 151, 229, ${pinStrength * .5})`; context.stroke();
-      context.beginPath(); context.arc(pointerX, pointerY, 2.1, 0, Math.PI * 2);
-      context.fillStyle = `rgba(113, 177, 215, ${pinStrength * .95})`;
+      context.strokeStyle = `rgba(110, 151, 229, ${pointerPresence * (.2 + pointerStillness * .38)})`; context.stroke();
+      context.beginPath(); context.arc(pointerX, pointerY, 1.9 + pointerStillness * .45, 0, Math.PI * 2);
+      context.fillStyle = `rgba(113, 177, 215, ${pointerPresence * .95})`;
       context.shadowBlur = 13; context.shadowColor = 'rgba(109,162,226,.9)'; context.fill(); context.shadowBlur = 0;
     }
 
