@@ -12,7 +12,7 @@ const contact = base + 'contact/';
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <meta name="theme-color" content="#e9eef2" />
+    <meta name="theme-color" content="#eef2f7" />
     <meta name="description" content={description} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -25,16 +25,16 @@ const contact = base + 'contact/';
   <body>
     <div class="site-noise" aria-hidden="true"></div>
     <header class="site-header" data-header>
-      <a class="wordmark" href={home} aria-label="Foresight Labs home"><span class="mark">F</span><span>Foresight <em>Labs</em></span></a>
+      <a class="wordmark" href={home} aria-label="Foresight Labs home"><span class="mark" aria-hidden="true"><i></i><i></i><b>F</b></span><span>Foresight <em>Labs</em></span></a>
       <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav"><span class="sr-only">Toggle navigation</span><i></i><i></i></button>
       <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
         <a href={products}>Products</a><a href={about}>About</a><a href={contact}>Contact</a>
-        <button class="theme-toggle" data-theme-toggle aria-label="Switch colour theme">◐ <span>Theme</span></button>
+        <button class="theme-toggle" data-theme-toggle aria-label="Switch colour theme"><span class="theme-glyph" aria-hidden="true">◐</span><span>Theme</span></button>
       </nav>
     </header>
     <main><slot /></main>
     <footer class="site-footer">
-      <div class="footer-top"><a class="wordmark" href={home}><span class="mark">F</span><span>Foresight <em>Labs</em></span></a><p>Thoughtful software for everyday intelligence.</p></div>
+      <div class="footer-top"><a class="wordmark" href={home}><span class="mark" aria-hidden="true"><i></i><i></i><b>F</b></span><span>Foresight <em>Labs</em></span></a><p>Thoughtful software for everyday intelligence.</p></div>
       <div class="footer-grid">
         <div><small>Explore</small><a href={products}>Products</a><a href={about}>About</a><a href={contact}>Contact</a></div>
         <div><small>Policies</small><a href={base + 'privacy/'}>Privacy</a><a href={base + 'terms/'}>Terms</a><a href={base + 'copyright/'}>Copyright</a><a href={base + 'publisher-policy/'}>Publisher policy</a></div>
