@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet" shape-rendering="geometricPrecision">
+  <defs>
+    <linearGradient id="canvas" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#35446D"/>
+      <stop offset="1" stop-color="#5E6AD2"/>
+    </linearGradient>
+    <linearGradient id="aurora" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#D7C29E"/>
+      <stop offset="1" stop-color="#32BBD2"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#canvas)"/>
+  <circle cx="512" cy="512" r="256" fill="url(#aurora)"/>
+  <circle cx="512" cy="512" r="115.2" fill="#fff"/>
+  <circle cx="512" cy="512" r="38.4" fill="#111827"/>
+</svg>

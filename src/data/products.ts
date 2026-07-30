@@ -21,7 +21,7 @@ export const products: Product[] = [
   {
     name: 'Foresight', slug: 'foresight', tagline: 'Know Today. Prepare Tomorrow.',
     description: 'A privacy-conscious personal life intelligence application that brings tasks, memories, health, relationships, planning and proactive assistance together in one thoughtfully designed experience.',
-    status: 'In development', accent: 'mint', logo: 'F', screenshots: ['Daily rhythm', 'Life context', 'Quiet guidance'],
+    status: 'In development', accent: 'mint', logo: 'F', brandImage: 'images/foresight-app-icon.svg', screenshots: ['Daily rhythm', 'Life context', 'Quiet guidance'],
     playStoreUrl: null, repositoryUrl: null, privacyPolicyUrl: null,
     purpose: 'To make the shape of everyday life easier to see, without turning a person into a set of metrics.',
     capabilities: ['Tasks and personal planning', 'Memory and relationship context', 'Health information with source-aware privacy', 'Proactive assistance that respects attention'],

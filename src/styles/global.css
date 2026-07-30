@@ -136,7 +136,7 @@ body>.intelligence-field.is-global .field-aura{
 .ecosystem .eco-node{z-index:2}
 @keyframes ecosystemSignal{to{stroke-dashoffset:-60}}
 
-/* AURA's restored app mark is reused consistently across product surfaces. */
+/* Canonical product marks are reused consistently across product surfaces. */
 .product-brand-image{
   display:block;
   width:100%;
