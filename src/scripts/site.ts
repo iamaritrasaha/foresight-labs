@@ -13,10 +13,7 @@ document.querySelector('[data-theme-toggle]')?.addEventListener('click', () => {
 const menu = document.querySelector<HTMLButtonElement>('.menu-toggle');
 const nav = document.querySelector<HTMLElement>('.site-nav');
 const closeMenu = () => { menu?.setAttribute('aria-expanded', 'false'); nav?.classList.remove('is-open'); };
-menu?.addEventListener('click', () => {
-  const open = menu.getAttribute('aria-expanded') === 'true';
-  menu.setAttribute('aria-expanded', String(!open)); nav?.classList.toggle('is-open', !open);
-});
+menu?.addEventListener('click', () => { const open = menu.getAttribute('aria-expanded') === 'true'; menu.setAttribute('aria-expanded', String(!open)); nav?.classList.toggle('is-open', !open); });
 document.addEventListener('click', (event) => { if (nav?.classList.contains('is-open') && !nav.contains(event.target as Node) && event.target !== menu) closeMenu(); });
 document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeMenu(); });
 window.addEventListener('scroll', () => document.querySelector('[data-header]')?.classList.toggle('is-scrolled', window.scrollY > 24), { passive: true });
@@ -29,10 +26,22 @@ const canvas = field?.querySelector<HTMLCanvasElement>('canvas');
 if (field && canvas && !prefersReduced.matches) {
   const context = canvas.getContext('2d');
   const points = Array.from({ length: 34 }, (_, index) => ({ angle: index * .92, radius: 65 + (index % 6) * 35, speed: (index % 2 ? 1 : -1) * (.0007 + (index % 4) * .0002), size: 1.2 + index % 3 * .4 }));
+  const electronOrbits = [{ rx: 235, ry: 88, tilt: -.32, speed: .00085, color: 'rgba(112,207,225,.95)' }, { rx: 205, ry: 72, tilt: .7, speed: -.00105, color: 'rgba(170,143,246,.95)' }, { rx: 165, ry: 58, tilt: 1.35, speed: .00072, color: 'rgba(220,233,255,.9)' }];
   let frame = 0; let visible = true; let pointerX = 0; let pointerY = 0; let width = 0; let height = 0;
   const resize = () => { const rect = field.getBoundingClientRect(); const ratio = Math.min(window.devicePixelRatio || 1, 1.5); width = rect.width; height = rect.height; canvas.width = width * ratio; canvas.height = height * ratio; canvas.style.width = `${width}px`; canvas.style.height = `${height}px`; context?.setTransform(ratio, 0, 0, ratio, 0, 0); };
-  const draw = (time: number) => { if (!visible || !context) return; context.clearRect(0, 0, width, height); const cx = width * (.55 + pointerX * .025); const cy = height * (.5 + pointerY * .025); const dots = points.map((point) => { point.angle += point.speed * 16; return { x: cx + Math.cos(point.angle) * point.radius, y: cy + Math.sin(point.angle) * point.radius * .68, size: point.size }; }); context.lineWidth = .7; dots.forEach((dot, index) => { const next = dots[(index + 1) % dots.length]; context.strokeStyle = `rgba(102, 129, 190, ${index % 4 === 0 ? .3 : .12})`; context.beginPath(); context.moveTo(dot.x, dot.y); context.lineTo(next.x, next.y); context.stroke(); if (index % 3 === 0) { context.beginPath(); context.arc(dot.x, dot.y, 2.5, 0, Math.PI * 2); context.fillStyle = index % 2 ? 'rgba(84,168,194,.75)' : 'rgba(123,103,200,.7)'; context.fill(); } }); context.beginPath(); context.arc(cx, cy, 72 + Math.sin(time / 700) * 5, 0, Math.PI * 2); context.strokeStyle = 'rgba(122,143,203,.18)'; context.stroke(); frame = requestAnimationFrame(draw); };
-  const visibility = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; if (visible && !frame) frame = requestAnimationFrame(draw); if (!visible && frame) { cancelAnimationFrame(frame); frame = 0; } }); visibility.observe(field); resize(); window.addEventListener('resize', resize); field.addEventListener('pointermove', (event) => { const rect = field.getBoundingClientRect(); pointerX = (event.clientX - rect.left) / rect.width - .5; pointerY = (event.clientY - rect.top) / rect.height - .5; }); frame = requestAnimationFrame(draw);
+  const draw = (time: number) => {
+    if (!visible || !context) return;
+    context.clearRect(0, 0, width, height);
+    const cx = width * (.55 + pointerX * .025); const cy = height * (.42 + pointerY * .025);
+    const atomX = width * (.55 + pointerX * .018); const atomY = height * (.42 + pointerY * .018);
+    electronOrbits.forEach((orbit, index) => { const angle = time * orbit.speed + index * 1.8; context.save(); context.translate(atomX, atomY); context.rotate(orbit.tilt); context.beginPath(); context.ellipse(0, 0, orbit.rx, orbit.ry, 0, 0, Math.PI * 2); context.strokeStyle = index === 0 ? 'rgba(112,207,225,.34)' : index === 1 ? 'rgba(170,143,246,.3)' : 'rgba(220,233,255,.26)'; context.lineWidth = 1; context.stroke(); const electronX = Math.cos(angle) * orbit.rx; const electronY = Math.sin(angle) * orbit.ry; context.beginPath(); context.arc(electronX, electronY, index === 1 ? 4 : 3, 0, Math.PI * 2); context.fillStyle = orbit.color; context.shadowBlur = 18; context.shadowColor = orbit.color; context.fill(); context.restore(); });
+    const dots = points.map((point) => { point.angle += point.speed * 16; return { x: cx + Math.cos(point.angle) * point.radius, y: cy + Math.sin(point.angle) * point.radius * .68, size: point.size }; });
+    context.lineWidth = .7;
+    dots.forEach((dot, index) => { const next = dots[(index + 1) % dots.length]; context.strokeStyle = `rgba(132, 158, 211, ${index % 4 === 0 ? .34 : .14})`; context.beginPath(); context.moveTo(dot.x, dot.y); context.lineTo(next.x, next.y); context.stroke(); if (index % 3 === 0) { context.beginPath(); context.arc(dot.x, dot.y, 2.5, 0, Math.PI * 2); context.fillStyle = index % 2 ? 'rgba(84,168,194,.8)' : 'rgba(153,129,224,.8)'; context.fill(); } });
+    context.beginPath(); context.arc(atomX, atomY, 26 + Math.sin(time / 700) * 3, 0, Math.PI * 2); context.fillStyle = 'rgba(224,240,255,.82)'; context.shadowBlur = 32; context.shadowColor = 'rgba(110,190,225,.8)'; context.fill(); context.shadowBlur = 0; frame = requestAnimationFrame(draw);
+  };
+  const visibility = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; if (visible && !frame) frame = requestAnimationFrame(draw); if (!visible && frame) { cancelAnimationFrame(frame); frame = 0; } });
+  visibility.observe(field); resize(); window.addEventListener('resize', resize); field.addEventListener('pointermove', (event) => { const rect = field.getBoundingClientRect(); pointerX = (event.clientX - rect.left) / rect.width - .5; pointerY = (event.clientY - rect.top) / rect.height - .5; }); frame = requestAnimationFrame(draw);
 }
 
 if (finePointer.matches && !prefersReduced.matches) document.querySelectorAll<HTMLElement>('[data-tilt-card]').forEach((card) => { const art = card.querySelector<HTMLElement>('[data-spotlight]'); card.addEventListener('pointermove', (event) => { const rect = card.getBoundingClientRect(); const x = event.clientX - rect.left; const y = event.clientY - rect.top; card.style.transform = `perspective(900px) rotateX(${(y / rect.height - .5) * -2}deg) rotateY(${(x / rect.width - .5) * 2}deg)`; art?.style.setProperty('--mx', `${x}px`); art?.style.setProperty('--my', `${y}px`); }); card.addEventListener('pointerleave', () => { card.style.transform = ''; }); });

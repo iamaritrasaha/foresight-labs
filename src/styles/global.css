@@ -29,3 +29,13 @@ body>.intelligence-field.is-global .field-core{inset:44%;opacity:.55}
 .mark-large b{font-size:23px}
 @media(max-width:760px){body>.intelligence-field.is-global{opacity:.2}body>.intelligence-field.is-global .field-core{inset:43%}}
 @media(prefers-reduced-motion:reduce){body>.intelligence-field.is-global{display:none}}
+
+/* Keep the three ecosystem nodes in a stable triangle on every viewport. */
+.ecosystem .eco-node[data-eco-node=foresight]{left:7%;top:22%;transform:none}
+.ecosystem .eco-node[data-eco-node=aura]{right:7%;top:22%;transform:none}
+.ecosystem .eco-node[data-eco-node=novarx]{left:50%;top:auto;bottom:8%;transform:translateX(-50%)}
+.ecosystem .eco-node[data-eco-node=foresight]:hover,.ecosystem .eco-node[data-eco-node=foresight]:focus-visible,.ecosystem .eco-node[data-eco-node=foresight][aria-selected=true],.ecosystem .eco-node[data-eco-node=aura]:hover,.ecosystem .eco-node[data-eco-node=aura]:focus-visible,.ecosystem .eco-node[data-eco-node=aura][aria-selected=true]{transform:translateY(-4px)}
+.ecosystem .eco-node[data-eco-node=novarx]:hover,.ecosystem .eco-node[data-eco-node=novarx]:focus-visible,.ecosystem .eco-node[data-eco-node=novarx][aria-selected=true]{transform:translateX(-50%) translateY(-4px)}
+body>.intelligence-field.is-global{opacity:.42}
+:root[data-theme=dark] body>.intelligence-field.is-global{opacity:.56}
+@media(max-width:760px){.ecosystem .eco-node[data-eco-node=foresight]{left:20px;top:24px}.ecosystem .eco-node[data-eco-node=aura]{right:20px;top:125px}.ecosystem .eco-node[data-eco-node=novarx]{left:20px;top:auto;bottom:24px;transform:none}.ecosystem .eco-node[data-eco-node=novarx]:hover,.ecosystem .eco-node[data-eco-node=novarx]:focus-visible,.ecosystem .eco-node[data-eco-node=novarx][aria-selected=true]{transform:translateY(-4px)}body>.intelligence-field.is-global{opacity:.34}}
