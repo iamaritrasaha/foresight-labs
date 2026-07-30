@@ -13,6 +13,7 @@ export type Product = {
   privacyPolicyUrl: string | null;
   purpose: string;
   capabilities: string[];
+  capabilityDescriptions?: string[];
   philosophy: string;
   trust: string;
 };
@@ -25,6 +26,12 @@ export const products: Product[] = [
     playStoreUrl: null, repositoryUrl: null, privacyPolicyUrl: null,
     purpose: 'To make the shape of everyday life easier to see, without turning a person into a set of metrics.',
     capabilities: ['Tasks and personal planning', 'Memory and relationship context', 'Health information with source-aware privacy', 'Proactive assistance that respects attention'],
+    capabilityDescriptions: [
+      'Bring tasks, routines and priorities into one calm planning experience.',
+      'Keep useful personal context available when it matters, without adding noise.',
+      'Present health information with visible sources and privacy-conscious controls.',
+      'Offer timely support without turning every moment into another notification.',
+    ],
     philosophy: 'Foresight is being shaped as a calm layer between intention and action: useful when needed, quiet when not.',
     trust: 'Personal context deserves care. The product is being built around thoughtful controls, clear provenance and privacy-conscious defaults.',
   },
