@@ -1,0 +1,51 @@
+---
+const { variant } = Astro.props as { variant: number };
+---
+<div class={`aura-interface aura-interface-${variant + 1}`} aria-hidden="true">
+  <div class="aura-interface-top">
+    <span class="aura-interface-mark">A</span>
+    <span>{variant === 0 ? 'Reading space' : variant === 1 ? 'Source context' : 'Reading queue'}</span>
+    <i class="aura-live-dot"></i>
+  </div>
+
+  {variant === 0 && (
+    <div class="aura-reader-layout">
+      <div class="aura-feature-story">
+        <small>Morning brief</small>
+        <b></b><b></b>
+        <span class="aura-progress"><i></i></span>
+      </div>
+      <div class="aura-story-stack">
+        <span><i></i><b></b><b></b></span>
+        <span><i></i><b></b><b></b></span>
+        <span><i></i><b></b><b></b></span>
+      </div>
+    </div>
+  )}
+
+  {variant === 1 && (
+    <div class="aura-source-layout">
+      <div class="aura-source-card">
+        <span class="aura-source-icon">RSS</span>
+        <span><strong>Direct source</strong><small>RSS / Atom feed</small></span>
+        <i>↗</i>
+      </div>
+      <div class="aura-source-path">
+        <span><i></i>Publisher attribution</span>
+        <span><i></i>Original article link</span>
+        <span><i></i>Source stays visible</span>
+      </div>
+    </div>
+  )}
+
+  {variant === 2 && (
+    <div class="aura-queue-layout">
+      <div class="aura-queue-tabs"><span class="is-active">Saved</span><span>Unread</span><span>Later</span></div>
+      <div class="aura-queue-list">
+        <span><i></i><b></b><b></b><em>→</em></span>
+        <span><i></i><b></b><b></b><em>→</em></span>
+        <span><i></i><b></b><b></b><em>→</em></span>
+      </div>
+    </div>
+  )}
+</div>
