@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import IntelligenceField from '../components/IntelligenceField.astro';
 const { title = 'Foresight Labs', description = 'Thoughtful software for everyday intelligence.' } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const home = base;
@@ -24,6 +25,7 @@ const contact = base + 'contact/';
   </head>
   <body>
     <div class="site-noise" aria-hidden="true"></div>
+    <IntelligenceField global />
     <header class="site-header" data-header>
       <a class="wordmark" href={home} aria-label="Foresight Labs home"><span class="mark" aria-hidden="true"><i></i><i></i><b>F</b></span><span>Foresight <em>Labs</em></span></a>
       <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav"><span class="sr-only">Toggle navigation</span><i></i><i></i></button>
