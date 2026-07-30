@@ -12,7 +12,7 @@ const roles = ['Personal intelligence', 'Information intelligence', 'Health inte
       </svg>
       <div class="ecosystem-center"><span class="mark mark-large" aria-hidden="true"><i></i><i></i><b>F</b></span><strong>Foresight Labs</strong><small>independent intelligence studio</small></div>
       {products.map((product, index) => <a class={`eco-node ${product.accent}`} href={`${base}products/${product.slug}/`} role="tab" aria-selected={index === 0 ? 'true' : 'false'} data-eco-node={product.slug}>
-        <span class="eco-node-mark">{product.logo}</span><span><strong>{product.name}</strong><small>{roles[index]}</small></span><b aria-hidden="true">↗</b>
+        <span class:list={['eco-node-mark', { 'has-brand-image': product.brandImage }]}>{product.brandImage ? <img class="product-brand-image" src={`${base}${product.brandImage}`} width="1024" height="1024" loading="lazy" decoding="async" alt="" /> : product.logo}</span><span><strong>{product.name}</strong><small>{roles[index]}</small></span><b aria-hidden="true">↗</b>
       </a>)}
     </div>
     <div class="ecosystem-detail" data-eco-detail><span class="eyebrow">Selected system</span><p>{products[0].description}</p></div>

@@ -6,6 +6,7 @@ export type Product = {
   status: string;
   accent: string;
   logo: string;
+  brandImage?: string;
   screenshots: string[];
   playStoreUrl: string | null;
   repositoryUrl: string | null;
@@ -30,7 +31,7 @@ export const products: Product[] = [
   {
     name: 'AURA News', slug: 'aura', tagline: 'News, beautifully distilled.',
     description: 'A premium RSS and Atom news reader focused on elegant reading, trusted sources, intelligent organisation, optional AI assistance and a refined frosted-glass interface.',
-    status: 'In development', accent: 'violet', logo: 'A', screenshots: ['Your reading space', 'Source clarity', 'A considered queue'],
+    status: 'In development', accent: 'violet', logo: 'A', brandImage: 'images/aura-app-icon.webp', screenshots: ['Your reading space', 'Source clarity', 'A considered queue'],
     playStoreUrl: null, repositoryUrl: null, privacyPolicyUrl: null,
     purpose: 'To bring the pleasure and context back to keeping up, with less noise between a reader and a good story.',
     capabilities: ['RSS and Atom source reading', 'Elegant, focused article views', 'Intelligent organisation and saved reading', 'Optional AI assistance with transparent boundaries'],
