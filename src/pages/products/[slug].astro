@@ -1,0 +1,6 @@
+---
+import Layout from '../../layouts/Layout.astro'; import ProductPage from '../../components/ProductPage.astro'; import { products } from '../../data/products';
+export function getStaticPaths(){ return products.map((product) => ({ params: { slug: product.slug }, props: { product } })); }
+const { product } = Astro.props; if (!product) return Astro.redirect('/404/');
+---
+<Layout title={`${product.name} · Foresight Labs`} description={product.description}><ProductPage product={product} /></Layout>

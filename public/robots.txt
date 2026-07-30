@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://iamaritrasaha.github.io/foresight-labs/sitemap-index.xml

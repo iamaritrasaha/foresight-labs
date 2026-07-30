@@ -1,0 +1,5 @@
+---
+import Layout from '../layouts/Layout.astro';
+const email = 'thisisaritrasaha@gmail.com'; const subjects = ['General enquiry','Product feedback','Business enquiry','Privacy enquiry','Copyright enquiry','Publisher removal request'];
+---
+<Layout title="Contact · Foresight Labs" description="Contact Foresight Labs about products, feedback, privacy and publisher requests."><section class="page-intro container"><p class="eyebrow">Say hello</p><h1>Let’s keep the<br /><em>conversation open.</em></h1><p>The simplest way to reach us is by email. Choose a subject below or write directly to <a href={`mailto:${email}`}>{email}</a>.</p></section><section class="section section-tint"><div class="container"><p class="eyebrow">Choose a subject</p><div class="contact-options">{subjects.map((subject) => <a class="contact-option" href={`mailto:${email}?subject=${encodeURIComponent(subject)}`}><span>{subject}</span><strong>{email} ↗</strong></a>)}</div></div></section></Layout>

@@ -1,0 +1,47 @@
+---
+import '../styles/global.css';
+const { title = 'Foresight Labs', description = 'Thoughtful software for everyday intelligence.' } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const home = base;
+const products = base + 'products/';
+const about = base + 'about/';
+const contact = base + 'contact/';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="theme-color" content="#e9eef2" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="sitemap" href={base + 'sitemap-index.xml'} />
+    <link rel="manifest" href={base + 'manifest.webmanifest'} />
+    <link rel="icon" href={base + 'favicon.svg'} type="image/svg+xml" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div class="site-noise" aria-hidden="true"></div>
+    <header class="site-header" data-header>
+      <a class="wordmark" href={home} aria-label="Foresight Labs home"><span class="mark">F</span><span>Foresight <em>Labs</em></span></a>
+      <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav"><span class="sr-only">Toggle navigation</span><i></i><i></i></button>
+      <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
+        <a href={products}>Products</a><a href={about}>About</a><a href={contact}>Contact</a>
+        <button class="theme-toggle" data-theme-toggle aria-label="Switch colour theme">◐ <span>Theme</span></button>
+      </nav>
+    </header>
+    <main><slot /></main>
+    <footer class="site-footer">
+      <div class="footer-top"><a class="wordmark" href={home}><span class="mark">F</span><span>Foresight <em>Labs</em></span></a><p>Thoughtful software for everyday intelligence.</p></div>
+      <div class="footer-grid">
+        <div><small>Explore</small><a href={products}>Products</a><a href={about}>About</a><a href={contact}>Contact</a></div>
+        <div><small>Policies</small><a href={base + 'privacy/'}>Privacy</a><a href={base + 'terms/'}>Terms</a><a href={base + 'copyright/'}>Copyright</a><a href={base + 'publisher-policy/'}>Publisher policy</a></div>
+        <div><small>Disclosures</small><a href={base + 'advertising-disclosure/'}>Advertising</a><a href={base + 'ai-disclosure/'}>AI disclosure</a><a href={base + 'publisher-removal/'}>Publisher removal</a></div>
+      </div>
+      <div class="footer-bottom"><span>Copyright © 2026 Foresight Labs. All rights reserved.</span><span>Independent product studio · India</span></div>
+    </footer>
+    <script src="../scripts/site.ts"></script>
+  </body>
+</html>

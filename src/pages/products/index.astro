@@ -1,0 +1,4 @@
+---
+import Layout from '../../layouts/Layout.astro'; import ProductCard from '../../components/ProductCard.astro'; import { products } from '../../data/products';
+---
+<Layout title="Products · Foresight Labs" description="Explore Foresight Labs products in development."><section class="page-intro container"><p class="eyebrow">The work</p><h1>Useful things,<br /><em>carefully made.</em></h1><p>Foresight Labs is exploring how software can help people see, read and care with more clarity.</p></section><section class="section section-tint"><div class="container product-grid">{products.map((product) => <ProductCard product={product} />)}</div></section></Layout>
