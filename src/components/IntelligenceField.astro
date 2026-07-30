@@ -3,6 +3,6 @@ const { global = false } = Astro.props;
 ---
 <div class:list={['intelligence-field', { 'is-global': global }]} data-intelligence-field aria-hidden="true">
   <canvas></canvas>
-  <div class="field-aura"></div><div class="field-core"><span></span></div>
+  <div class="field-aura"></div>
   {!global && <><div class="field-label field-label-one">FORESIGHT <i></i></div><div class="field-label field-label-two">AURA <i></i></div><div class="field-label field-label-three">NOVARX <i></i></div></>}
 </div>

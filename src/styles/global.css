@@ -102,3 +102,39 @@ body>.intelligence-field.is-global{opacity:.42}
   .button{padding:12px 16px}
   .ecosystem{height:610px}
 }
+
+/* A broad neural field replaces the former atom motif. */
+body>.intelligence-field.is-global{opacity:.58}
+:root[data-theme=dark] body>.intelligence-field.is-global{opacity:.7}
+body>.intelligence-field.is-global .field-aura{
+  inset:-8%;
+  opacity:.6;
+  filter:blur(20px);
+  background:
+    radial-gradient(ellipse at 58% 42%,color-mix(in srgb,var(--cyan) 15%,transparent),transparent 48%),
+    radial-gradient(ellipse at 32% 68%,color-mix(in srgb,var(--violet) 11%,transparent),transparent 42%);
+}
+
+/* Draw exact, responsive studio-to-product connections behind the cards. */
+.ecosystem-lines{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:visible}
+.ecosystem-lines path{
+  fill:none;
+  stroke:color-mix(in srgb,var(--accent) 54%,transparent);
+  stroke-width:1.1;
+  stroke-linecap:round;
+  stroke-dasharray:5 10;
+  vector-effect:non-scaling-stroke;
+  opacity:.48;
+  animation:ecosystemSignal 12s linear infinite;
+  transition:stroke .25s,stroke-width .25s,opacity .25s;
+}
+.ecosystem-lines path:nth-child(2){animation-delay:-4s}
+.ecosystem-lines path:nth-child(3){animation-delay:-8s}
+.ecosystem-lines path.is-active{stroke:var(--accent);stroke-width:1.6;opacity:.92}
+.ecosystem .eco-node{z-index:2}
+@keyframes ecosystemSignal{to{stroke-dashoffset:-60}}
+
+@media(max-width:760px){
+  body>.intelligence-field.is-global{opacity:.36!important}
+  :root[data-theme=dark] body>.intelligence-field.is-global{opacity:.47!important}
+}

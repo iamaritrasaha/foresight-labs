@@ -7,7 +7,9 @@ const roles = ['Personal intelligence', 'Information intelligence', 'Health inte
   <div class="container">
     <div class="section-heading"><div><p class="eyebrow">The living system</p><h2>One laboratory.<br /><em>Three evolving systems.</em></h2></div><p>Different questions, one shared belief: intelligence should make the world feel more legible, not more complicated.</p></div>
     <div class="ecosystem" role="tablist" aria-label="Foresight Labs products">
-      <div class="ecosystem-lines" aria-hidden="true"><span></span><span></span><span></span></div>
+      <svg class="ecosystem-lines" data-ecosystem-lines aria-hidden="true">
+        {products.map((product, index) => <path data-eco-line={product.slug} class:list={{ 'is-active': index === 0 }} />)}
+      </svg>
       <div class="ecosystem-center"><span class="mark mark-large" aria-hidden="true"><i></i><i></i><b>F</b></span><strong>Foresight Labs</strong><small>independent intelligence studio</small></div>
       {products.map((product, index) => <a class={`eco-node ${product.accent}`} href={`${base}products/${product.slug}/`} role="tab" aria-selected={index === 0 ? 'true' : 'false'} data-eco-node={product.slug}>
         <span class="eco-node-mark">{product.logo}</span><span><strong>{product.name}</strong><small>{roles[index]}</small></span><b aria-hidden="true">↗</b>
