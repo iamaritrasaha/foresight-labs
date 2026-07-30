@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - codex/foresight-labs-website
+      - foresight-labs-website
   workflow_dispatch:
 
 permissions:
