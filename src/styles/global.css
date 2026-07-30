@@ -43,7 +43,8 @@ body>.intelligence-field.is-global{opacity:.42}
 /* Mobile layout pass: keep the spatial system present without letting it crowd the content. */
 @media (max-width:760px){
   .container,.site-footer>*{width:calc(100% - 28px);max-width:none}
-  .site-header,.site-header.is-scrolled{top:10px;width:calc(100% - 20px);padding:9px 10px;border-radius:17px}
+  .site-header{top:max(10px,env(safe-area-inset-top));width:calc(100% - 20px);padding:9px 10px;border-radius:17px;background:color-mix(in srgb,var(--surface-strong) 88%,transparent);box-shadow:0 12px 32px rgba(8,17,31,.18)}
+  .site-header.is-scrolled{width:min(260px,calc(100% - 20px));border-radius:999px}
   .site-header .wordmark{gap:8px;font-size:13px}
   .site-header .mark{width:28px;height:28px}
   .menu-toggle{padding:9px 7px;margin:-2px -2px -2px 8px;min-width:40px;min-height:40px;place-items:center}
@@ -70,13 +71,14 @@ body>.intelligence-field.is-global{opacity:.42}
   .section-heading{gap:20px;margin-bottom:34px}
   .section-heading h2{font-size:clamp(2.35rem,11vw,3.2rem)}
   .section-heading>p{max-width:100%}
-  .ecosystem{height:600px;border-radius:24px}
-  .ecosystem-center{top:51%;width:calc(100% - 40px);text-align:center}
-  .ecosystem-center .mark-large{width:46px;height:46px}
-  .ecosystem .eco-node[data-eco-node=foresight],.ecosystem .eco-node[data-eco-node=aura],.ecosystem .eco-node[data-eco-node=novarx]{left:20px;right:auto;width:calc(100% - 40px);min-width:0}
-  .ecosystem .eco-node[data-eco-node=foresight]{top:20px}
-  .ecosystem .eco-node[data-eco-node=aura]{top:110px}
-  .ecosystem .eco-node[data-eco-node=novarx]{top:auto;bottom:20px}
+  .ecosystem{height:auto;min-height:0;display:flex;flex-direction:column;gap:12px;padding:16px;border-radius:24px}
+  .ecosystem:after{content:'';position:absolute;left:50px;top:54px;bottom:54px;width:1px;background:linear-gradient(180deg,transparent,color-mix(in srgb,var(--accent) 45%,transparent) 12%,color-mix(in srgb,var(--cyan) 45%,transparent) 88%,transparent);z-index:1;pointer-events:none}
+  .ecosystem-center{position:relative;left:auto;top:auto;transform:none;width:100%;display:grid;grid-template-columns:46px minmax(0,1fr);grid-template-rows:auto auto;column-gap:12px;row-gap:2px;align-items:center;text-align:left;padding:14px;border:1px solid var(--line);border-radius:18px;background:var(--surface);backdrop-filter:blur(18px);box-shadow:0 12px 28px rgba(20,32,49,.09);z-index:2}
+  .ecosystem-center .mark-large{grid-row:1 / 3;width:46px;height:46px}
+  .ecosystem-center strong{align-self:end}
+  .ecosystem-center small{align-self:start;min-width:0;overflow-wrap:anywhere}
+  .ecosystem .eco-node[data-eco-node=foresight],.ecosystem .eco-node[data-eco-node=aura],.ecosystem .eco-node[data-eco-node=novarx]{position:relative;inset:auto;left:auto;right:auto;top:auto;bottom:auto;width:100%;min-width:0;min-height:76px;padding:13px 14px;transform:none;z-index:2}
+  .ecosystem .eco-node[data-eco-node=foresight]:hover,.ecosystem .eco-node[data-eco-node=foresight]:focus-visible,.ecosystem .eco-node[data-eco-node=foresight][aria-selected=true],.ecosystem .eco-node[data-eco-node=aura]:hover,.ecosystem .eco-node[data-eco-node=aura]:focus-visible,.ecosystem .eco-node[data-eco-node=aura][aria-selected=true],.ecosystem .eco-node[data-eco-node=novarx]:hover,.ecosystem .eco-node[data-eco-node=novarx]:focus-visible,.ecosystem .eco-node[data-eco-node=novarx][aria-selected=true]{transform:none}
   .ecosystem-detail{max-width:100%;margin-top:16px}
   .product-card-body{padding:22px}
   .product-art,.product-card:nth-child(3) .product-art{min-height:220px}
@@ -100,7 +102,7 @@ body>.intelligence-field.is-global{opacity:.42}
   .home-hero h1,.product-hero h1,.page-intro h1{font-size:clamp(2.55rem,13.5vw,3.35rem)}
   .hero-meta strong{font-size:12px}
   .button{padding:12px 16px}
-  .ecosystem{height:610px}
+  .ecosystem{height:auto;padding:12px}
 }
 
 /* A broad neural field replaces the former atom motif. */
