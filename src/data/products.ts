@@ -25,7 +25,7 @@ export const products: Product[] = [
   {
     name: 'Foresight', slug: 'foresight', tagline: 'Know Today. Prepare Tomorrow.',
     description: 'A privacy-conscious personal life intelligence application that brings tasks, memories, health, relationships, planning and proactive assistance together in one thoughtfully designed experience.',
-    status: 'In development', accent: 'mint', logo: 'F', brandImage: 'images/foresight-app-icon.svg', deviceLabel: 'Daily rhythm',
+    status: 'Internal Testing', accent: 'mint', logo: 'F', brandImage: 'images/foresight-app-icon.svg', deviceLabel: 'Daily rhythm',
     playStoreUrl: null, repositoryUrl: null, privacyPolicyUrl: null,
     purpose: 'To make the shape of everyday life easier to see, without turning a person into a set of metrics.',
     capabilityEyebrow: 'Core capabilities',
@@ -44,7 +44,7 @@ export const products: Product[] = [
   {
     name: 'AURA News', slug: 'aura', tagline: 'News, beautifully distilled.',
     description: 'A premium RSS and Atom news reader focused on elegant reading, trusted sources, intelligent organisation, optional AI assistance and a refined frosted-glass interface.',
-    status: 'In development', accent: 'violet', logo: 'A', brandImage: 'images/aura-app-icon.webp', deviceLabel: 'Your reading space',
+    status: 'Internal Testing', accent: 'violet', logo: 'A', brandImage: 'images/aura-app-icon.webp', deviceLabel: 'Your reading space',
     playStoreUrl: null, repositoryUrl: null, privacyPolicyUrl: null,
     purpose: 'To bring the pleasure and context back to keeping up, with less noise between a reader and a good story.',
     capabilityEyebrow: 'Reading capabilities',
